@@ -1,13 +1,299 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --clr-black: #1d2226;
+  --clr-blue-1: #8c9efc;
+  --clr-blue-2: #003c68;
+  --clr-white-1: #ffffff;
+  --clr-white-2: #c0c1cc;
+  --clr-white-2: rgba(110, 106, 106, 0.85);
+  --clr-white-3: #dedef5;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: Font;
+  src: url(./utils/arabicfont.ttf);
+}
+
+/*
+==============================
+Global Styles
+==============================
+*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+::after,
+::before {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+title {
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+body {
+  font-family: Font;
+  letter-spacing: 0.5px;
+  background-color: #F2F1F1;
+}
+
+select {
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+option {
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: #121212;
+  text-decoration: none;
+}
+
+button {
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+p {
+  font-weight: 400;
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+small {
+  font-family: Font;
+  letter-spacing: 0.5px;
+}
+
+.bg {
+  background-color: #f7f8ff;
+}
+
+input[type='file'] {
+  color: transparent;
+}
+
+.section__title {
+  max-width: 80rem;
+  margin: auto;
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--clr-black);
+  margin-bottom: 5rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .section__title {
+    font-size: 3rem;
+  }
+}
+
+.section__blue {
+  padding: 5rem 4rem;
+  background-color: #f7f8ff;
+}
+
+.section__white {
+  padding: 5rem 4rem;
+  background-color: white;
+
+}
+
+
+
+/*
+==============================
+Button Styles
+==============================
+*/
+.btn-small:link,
+.btn-small:visited {
+  display: inline-block;
+  color: var(--clr-blue-2);
+  background-color: white;
+  border-radius: 24px;
+  text-decoration: none;
+  padding: 0.7rem 4.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+@media only screen and (max-width: 850px) {
+
+  .btn-small:link,
+  .btn-small:visited {
+    font-size: 1.6rem;
+    padding: 0.9rem 3rem;
+  }
+}
+
+.blue-btn {
+  display: inline-block;
+  margin: auto;
+  padding: 1rem 4rem;
+  color: white;
+  font-size: 2.3rem;
+  background-color: var(--clr-blue-2);
+  border: none;
+  font-weight: 600;
+  border-radius: 20px;
+  margin-top: 3rem;
+  cursor: pointer;
+  text-align: center;
+}
+.gray-btn {
+  display: inline-block;
+  margin: auto;
+  padding: 1rem 4rem;
+  color: white;
+  font-size: 2.3rem;
+  background-color: gray;
+  border: none;
+  font-weight: 600;
+  border-radius: 20px;
+  margin-top: 3rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+@media only screen and (max-width: 850px) {
+  .blue-btn {
+    font-size: 2rem;
+  }
+}
+
+.submit-button {
+  display: block;
+  width: 200px;
+  font-weight: 500;
+}
+
+.section-100vh {
+  position: relative;
+  background-color: #F2F1F1;
+  min-height: calc(100vh - 7.5rem);
+}
+
+.section-50vh-1200w {
+  position: relative;
+  background-color: #F2F1F1;
+}
+
+@media only screen and (max-width: 1200px) {
+  .section-50vh-1200w {
+    min-height: 50vh;
+  }
+}
+
+/*
+==============================
+Navigation Styles
+==============================
+*/
+.nav__parent {
+  background-color: #003C68;
+}
+
+
+.nav__container {
+  max-width: 119rem;
+  margin: auto;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__logo {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  margin-right: 4rem;
+}
+
+.navbar__label {
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+@media only screen and (max-width: 750px) {
+  .navbar__logo {
+    height: 6.5rem;
+    width: 6.5rem;
+    margin-right: 3rem;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .navbar__logo {
+    height: 6rem;
+    width: 6rem;
+    margin-right: 2rem;
+  }
+}
+
+
+
+
+
+@media only screen and (max-width: 850px) {
+  .btn-nav {
+    align-self: flex-end;
+  }
+}
+
+/* Temporary Disable Button. */
+.disableButtonColor {
+  background-color: #6c6d79;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
