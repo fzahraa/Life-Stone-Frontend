@@ -5,12 +5,16 @@ import { TextField, Button, InputAdornment } from '@mui/material';
 import { styles } from '../Shared/Styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import OAuth2Login from 'react-simple-oauth2-login';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyIcon from '@mui/icons-material/Key';
 import Spinner from './Spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserEn } from '../features_en/user/userSlice';
+import { loginUserEn, loginUserGoogleEn, loginUserFaceBookEn } from '../features_en/user/userSlice';
 import { getUserFromLocalStorage } from '../utils/localStorage';
+import { GoogleLogin } from 'react-google-login';
+import { gapi } from "gapi-script";
+import InstagramLogin from 'react-instagram-login';
 
 const schema = yup.object().shape({
   email: yup.string().email('Invalid Email Format').required('Required*'),
@@ -44,7 +48,16 @@ const Signin = () => {
       })
     );
   };
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: process.env.REACT_PUBLIC_GOOGLE_CLIENT_ID,
+        scope: 'email',
+      });
+    }
 
+    gapi.load('client:auth2', start);
+  }, []);
   useEffect(() => {
     if (isSuccess) {
       if (localStorage.getItem('review')) {
@@ -74,7 +87,44 @@ const Signin = () => {
   if (isLoading) {
     return <Spinner />;
   }
-
+  const responseSuccess = (response) => {
+    console.log(response);
+    dispatch(
+      loginUserGoogleEn({
+        name: response.profileObj.name,
+        email: response.profileObj.email,
+        token: response.tokenId,
+        loginType: "Google",
+      })
+    );
+  }
+  const responseInstagram = (response) => {
+    console.log(response);
+  }
+  
+  const responseFailure = (response) => {
+    console.log("hi")
+    console.log(response);
+  }
+  const onSuccessInstagram = async(response) => {
+    console.log(response);
+    console.log("https://graph.facebook.com/v16.0/me/accounts?fields=id%2Cname%2Caccess_token%2Cinstagram_business_account&access_token=EAACw...");
+  }
+  const onSuccess = async(response) => {
+    const accessToken = response.access_token;
+    const result = await fetch(`https://graph.facebook.com/me?access_token=${accessToken}`);
+    const profile = await result.json();
+    dispatch(
+      loginUserFaceBookEn({
+        name: profile.name,
+        email: "",
+        token: response.access_token,
+        loginType: "FaceBook",
+        facebookId: profile.id,
+      })
+    );
+  }
+  const onFailure = response => console.error(response);
   return (
     <Wrapper>
       <div id='signin__grid'>
@@ -166,6 +216,38 @@ const Signin = () => {
           >
             <u>Please Sign Up</u>
           </b>
+        </h1>
+        <h1 className='signuptxt'>
+        Login With?{' '}
+        <GoogleLogin
+          clientId="419046871516-dtco92r16hnvvfdnbqgveck29ai5352j.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={responseSuccess}
+          onFailure={responseFailure}
+          cookiePolicy={'single_host_origin'}
+        />
+        </h1>
+        <h1 className='signuptxt'>
+        Login With?{' '}
+        <OAuth2Login
+        buttonText='Login With Facebook'
+        authorizationUrl="https://www.facebook.com/dialog/oauth"
+        responseType="token"
+        clientId="952055429565064"
+        redirectUri="http://localhost:3000"
+        onSuccess={onSuccess}
+        onFailure={onFailure}/>
+        </h1>
+        <h1 className='signuptxt'>
+          Login With?{' '}
+          <OAuth2Login
+        buttonText='Login With Instagram'
+        authorizationUrl="https://www.instagram.com/dialog/oauth"
+        responseType="token"
+        clientId="1428903024605035"
+        redirectUri="http://localhost:3000"
+        onSuccess={onSuccessInstagram}
+        onFailure={onFailure}/>
         </h1>
       </div>
     </Wrapper>
